@@ -216,3 +216,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project specific
+data/processed/*
+!data/processed/.gitkeep
+notebooks/*
+!notebooks/.gitkeep
+
+.DS_Store
