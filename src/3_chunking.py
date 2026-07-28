@@ -1,5 +1,6 @@
 import os
 import re
+import json
 from langchain_text_splitters import MarkdownHeaderTextSplitter, RecursiveCharacterTextSplitter
 
 def main():
@@ -35,7 +36,6 @@ def main():
     current_page = "1"
     
     for chunk in final_splits:
-
         pages_found = re.findall(r'<!--\s*PAGE:\s*(\d+)\s*-->', chunk.page_content)
         
         if pages_found:
@@ -57,9 +57,23 @@ def main():
     max_len = max(len(chunk.page_content) for chunk in final_splits)
     print(f"- Maximum chunk length: {max_len} characters")
     
-    print("\n--- FIRST ENRICHED CHUNK PREVIEW ---")
+    print("\n--- SECOND ENRICHED CHUNK PREVIEW ---")
     print(f"Metadata: {final_splits[1].metadata}")
-    print(f"Content:\n{final_splits[1].page_content[:300]}...")
+    print(f"Content:\n{final_splits[1].page_content[:]}")
+
+
+    print("\n[INFO] Stage 4: Saving chunks to disk...")
+    output_chunks_path = "data/processed/chunks.jsonl"
+    
+    with open(output_chunks_path, "w", encoding="utf-8") as f:
+        for chunk in final_splits:
+            chunk_data = {
+                "page_content": chunk.page_content,
+                "metadata": chunk.metadata
+            }
+            f.write(json.dumps(chunk_data, ensure_ascii=False) + "\n")
+            
+    print(f"[SUCCESS] Saved {len(final_splits)} chunks to {output_chunks_path}")
 
 if __name__ == "__main__":
     main()
