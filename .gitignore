@@ -222,5 +222,6 @@ data/processed/*
 !data/processed/.gitkeep
 notebooks/*
 !notebooks/.gitkeep
+data/qdrant_db/
 
 .DS_Store
