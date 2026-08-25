@@ -223,5 +223,6 @@ data/processed/*
 notebooks/*
 !notebooks/.gitkeep
 data/qdrant_db/
+data/synthetic_dataset.json
 
 .DS_Store
